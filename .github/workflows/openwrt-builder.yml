@@ -12,7 +12,7 @@ on:
         description: '编译设备型号'
         required: true
         type: choice
-        default: 'all'
+        default: '128M'
         options:
           - '256M'
           - '128M'
@@ -22,12 +22,12 @@ on:
         description: '指定源码仓库地址'
         required: true
         type: string
-        default: 'https://github.com/padavanonly/immortalwrt-mt798x-6.6'
+        default: 'https://github.com/immortalwrt/immortalwrt'
       commit:
-        description: '指定源码commit进行编译，留空拉取最新源码'
+        description: '指定源码分支/tag/commit (留空使用 openwrt-23.05)'
         required: false
         type: string
-        default: ''
+        default: 'openwrt-23.05'
       ssh:
         description: '是否执行 make menuconfig, 编译设备为 all 时无效'
         required: false
@@ -49,7 +49,7 @@ env:
   CCACHE_DIR: /workdir/.ccache
   CCACHE_MAXSIZE: 2G
   REPO_URL: ${{ github.event.inputs.repo || github.event.client_payload.repo }}
-  REPO_BRANCH: openwrt-24.10-6.6
+  REPO_BRANCH: ${{ github.event.inputs.commit || 'openwrt-23.05' }}
   REPO_COMMIT: ${{ github.event.inputs.commit }}
   FEEDS_CONF: feeds.conf.default
   DIY_P1_SH: diy-part1.sh
@@ -167,7 +167,7 @@ jobs:
         working-directory: /workdir
         run: |
           git clone $REPO_URL -b $REPO_BRANCH --single-branch --filter=blob:none openwrt
-          if [ -n "${REPO_COMMIT}" ]; then
+          if [ -n "${REPO_COMMIT}" ] && [ "${REPO_COMMIT}" != "openwrt-23.05" ]; then
             cd openwrt && git checkout ${REPO_COMMIT}
           fi
           ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
