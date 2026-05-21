@@ -3,7 +3,7 @@ name: ImmortalWrt Builder
 permissions:
   contents: write
 
-于:
+on:
   repository_dispatch:
     types: [ "Source Code Update" ]
   workflow_dispatch:
@@ -11,8 +11,8 @@ permissions:
       device:
         description: '编译设备型号'
         required: true
-        输入: choice
-        默认: '128M'
+        type: choice
+        default: '128M'
         options:
           - '256M'
           - '128M'
@@ -21,28 +21,28 @@ permissions:
       repo:
         description: '指定源码仓库地址'
         required: true
-        输入: string
-        默认: 'https://github.com/padavanonly/immortalwrt-mt798x-6.6'
-      提交:
-        description: '指定源码分支/tag/commit (留空使用 openwrt-23.05)'
+        type: string
+        default: 'https://github.com/padavanonly/immortalwrt-mt798x-6.6'
+      commit:
+        description: '指定源码分支/tag/commit (留空使用 openwrt-24.10-6.6)'
         required: false
-        输入: string
-        默认: 'openwrt-24.10-6.6'
+        type: string
+        default: 'openwrt-24.10-6.6'
       ssh:
         description: '是否执行 make menuconfig, 编译设备为 all 时无效'
         required: false
-        输入: boolean
-        默认: false
+        type: boolean
+        default: false
       release:
         description: '是否发布编译产物到 Release'
         required: false
-        输入: boolean
-        默认: true
+        type: boolean
+        default: true
       prerelease:
         description: '是否发布为预发布版本 (Pre-release)'
         required: false
-        输入: boolean
-        默认: false
+        type: boolean
+        default: false
 
 env:
   DEVICE_INPUT: ${{ github.event.inputs.device || github.event.client_payload.device }}
@@ -292,7 +292,7 @@ jobs:
           tag_name: ${{ steps.tag.outputs.release_tag }}
           body_path: release.txt
           prerelease: ${{ env.PRERELEASE == 'true' }}
-          文件: ${{ github.workspace }}/firmware_collection/*
+          files: ${{ github.workspace }}/firmware_collection/*
 
       - name: 🚧 Delete old workflow runs
         uses: Mattraks/delete-workflow-runs@v2
