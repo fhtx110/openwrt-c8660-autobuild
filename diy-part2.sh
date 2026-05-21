@@ -1,3 +1,4 @@
+#!/bin/bash
 # 强制设置正确的子目标和设备
 cat << EOF >> .config
 CONFIG_TARGET_mediatek=y
@@ -5,7 +6,6 @@ CONFIG_TARGET_mediatek_mt7981=y
 # CONFIG_TARGET_mediatek_filogic is not set
 CONFIG_TARGET_mediatek_mt7981_DEVICE_nradio_c8660=y
 EOF
-#!/bin/bash
 #
 # https://github.com/P3TERX/Actions-OpenWrt
 # File name: diy-part2.sh
