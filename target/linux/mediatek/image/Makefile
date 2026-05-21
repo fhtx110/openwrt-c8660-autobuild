@@ -1,1 +1,1 @@
-include $(SUBTARGET).mk
+include filogic.mk
