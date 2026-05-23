@@ -1,3 +1,7 @@
+还在煎熬中，编译的固件都用不了。5.23
+
+
+
 [定制教程](https://xiabee.eu.org/customize.html) | [刷写教程](https://xiabee.eu.org/install.html)
 
 <div align=center>
